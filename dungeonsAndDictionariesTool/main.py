@@ -6,8 +6,7 @@ RPGElements = [
     "Death", "Life", "Fire", "Water", "Earth", "Air",
     "Nature", "Healing", "Animal", "Magic", "Light", "Dark",
     "Electric", "Toxic", "Tech",
-    "Blunt", "Cutting", "Piercing",
-    "None"]
+    "Blunt", "Cutting", "Piercing"]
 
 # Convert the rpg elements into a string like "Faith, Death, Fire, Water, Earth, Air, Blunt, Cutting"
 RPGElementsInString = ",".join(RPGElements)
