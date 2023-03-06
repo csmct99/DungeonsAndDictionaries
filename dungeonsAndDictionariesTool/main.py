@@ -4,62 +4,61 @@ from utils import *
 
 RPGElements = [
     "Death", "Life", "Fire", "Water", "Earth", "Air",
-    "Nature",
-    "Electric", "Toxic",
-    "Evil", "Good",
+    "Nature", "Healing", "Animal", "Magic", "Light", "Dark",
+    "Electric", "Toxic", "Tech",
     "Blunt", "Cutting", "Piercing",
     "None"]
 
 # Convert the rpg elements into a string like "Faith, Death, Fire, Water, Earth, Air, Blunt, Cutting"
 RPGElementsInString = ",".join(RPGElements)
 
+# PROMPT
 aiPrompt = "The following is a list of words that need to be tagged with the most accurate RPG element that the word can be categorized into."
 aiPrompt += "\nPossible RPG elements are: " + RPGElementsInString
-aiPrompt += "\nOnly one RPG element can be assigned to each word. Do not assign multiple RPG elements to a single word."
-aiPrompt += "\nif a word cannot be categorized into any of the RPG elements, assign it the RPG element 'None'"
+aiPrompt += "\nmultiple RPG elements can be assigned to a single word. With a maximum of 3 elements per word."
+aiPrompt += "\nevery word must be given an element even if the relation to the word is loose."
 aiPrompt += "\n ==  Words == "
 aiPrompt += "\nsword"
-aiPrompt += "\nfire"
+aiPrompt += "\nmining"
 aiPrompt += "\nbaseball"
 aiPrompt += "\nbomb"
 aiPrompt += "\nskeleton"
-aiPrompt += "\naaa"
+aiPrompt += "\njewel"
+aiPrompt += "\ndemon"
 aiPrompt += "\n == Tagging =="
-aiPrompt += "\n"
-aiPrompt += "\nsword : Cutting"
-aiPrompt += "\ncryo : Water"
+aiPrompt += "\nsword : Cutting, Piercing"
+aiPrompt += "\nmining : Earth, Tech"
 aiPrompt += "\nbaseball : Blunt"
 aiPrompt += "\nbomb : Fire"
-aiPrompt += "\nskeleton : Death"
-aiPrompt += "\naaa : None"
+aiPrompt += "\nskeleton : Death, Dark"
+aiPrompt += "\njewel : Earth, Nature"
+aiPrompt += "\ndemon : Dark, Fire"
 aiPrompt += "\n ==  Words == "
 
 # Constants
 
 wordsCollected = []
 wordsTagged = 0
-amountOfWordsPerPrompt = 20
-amountOfWordsToTag = 4
+amountOfWordsPerPrompt = 25
+amountOfWordsToTag = 9999999 # Can lower this for testing
 nameOfFileToSave = "taggedWords.txt"
 
 
 ## MAIN ##
 
+
+# Clear the old file
+with open(nameOfFileToSave, "w") as file:
+    file.write("")
+
 taggedOutput = ""
+allNouns = getNounsFromWordlist()
 
 # go through each word in the words dictionary
-for word in allWords:
+for word in allNouns:
     # If we have tagged enough words, stop
     if wordsTagged >= amountOfWordsToTag:
         break
-
-    # Check if the word is a noun
-    if not isWordNoun(word):
-        continue
-
-    # Check if the word is in the dictionary
-    if getDefinitation(word) is None:
-        continue
 
     # Add the word to the list of words collected
     wordsCollected.append(word)
@@ -106,8 +105,5 @@ for word in allWords:
 
 debug("Finished tagging words")
 debug("Saved tagged words to " + nameOfFileToSave)
-
-
-
 
 
